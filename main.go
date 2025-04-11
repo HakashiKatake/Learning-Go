@@ -3,6 +3,5 @@ package main
 import "fmt"
 
 func main() {
-	//var message string
-	fmt.Println("Hello, World!")
+	fmt.Println("Hi! I want to be a Gopher!")
 }
