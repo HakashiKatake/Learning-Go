@@ -26,6 +26,14 @@ func send(ch chan bool) {
 	fmt.Println("Sending message...")
 }
 
+func emailSender(emailChan chan string, done chan bool) {
+	defer func() { done <- true }() // Close the channel when done
+	for email := range emailChan {
+		fmt.Println("Sending email to:", email)
+		time.Sleep(time.Second) // Simulate some processing time
+	}
+}
+
 func main() {
 	// Channels
 	// Channels are used to communicate between goroutines.
@@ -60,8 +68,22 @@ func main() {
 	// }
 
 	//blocking in channels
-	ch := make(chan bool)
-	go send(ch)
-	<-ch //block until a sender is available
+	// ch := make(chan bool)
+	// go send(ch)
+	// <-ch //block until a sender is available
+
+	emailChan := make(chan string, 100) // Buffered channel
+	done := make(chan bool)
+
+	go emailSender(emailChan, done)
+
+	for i := 0; i < 10; i++ {
+		emailChan <- fmt.Sprintf("%d@gmail.com", i)
+	}
+
+	fmt.Println("Done sending.")
+
+	close(emailChan) // Close the channel to signal completion
+	<-done
 
 }
