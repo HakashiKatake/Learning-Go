@@ -1,10 +1,7 @@
-package custom
+package main
 
-import (
-	"example/custom"
-	"fmt"
-)
+import "github.com/HakashiKatake/Learning-Go/Chapter-1/packages/auth"
 
 func main() {
-	fmt.Println(custom.Value)
+	auth.LoginWithCredentials()
 }
